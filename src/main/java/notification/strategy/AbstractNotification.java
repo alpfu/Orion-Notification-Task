@@ -9,7 +9,7 @@ import java.util.Date;
 public abstract class AbstractNotification {
 
     private String notificationMessage;
-    private String lang;
+    private String lang; // TODO: get this from option panel...
 
     private int num;
     private Date timestamp;

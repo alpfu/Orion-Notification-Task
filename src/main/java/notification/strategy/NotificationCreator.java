@@ -62,7 +62,7 @@ public class NotificationCreator {
 
             bIsCreated =
                     createMissingCallNotification() &&
-                    createAvailabilityNotification(numNewClient);
+                    createAvailabilityNotification();
         }
 
         return bIsCreated;
@@ -83,16 +83,17 @@ public class NotificationCreator {
                             callerNumDateTable.get(keyNum),
                             callerNumCountTable.get(keyNum));
 
+            // TODO: refactor this section
             String notificationMessage = abstractNotification.createNotificationMessage();
             WebSocketOperations.getInstance().
-                    sendNotificationOverWebSocket(keyNum, notificationMessage);
+                    sendNotificationOverWebSocket(numNewClient, notificationMessage);
             bIsCreated = true; // could be false. answer from WebSocket
         }
 
         return bIsCreated;
     }
 
-    private boolean createAvailabilityNotification(int numNewClient) {
+    private boolean createAvailabilityNotification() {
 
         boolean bIsCreated = true;
 
@@ -106,6 +107,7 @@ public class NotificationCreator {
                             numNewClient,
                             callerNumDateTable.get(keyNum));
 
+            // TODO: refactor this section
             String notificationMessage = abstractNotification.createNotificationMessage();
             WebSocketOperations.getInstance().
                     sendNotificationOverWebSocket(keyNum, notificationMessage);
