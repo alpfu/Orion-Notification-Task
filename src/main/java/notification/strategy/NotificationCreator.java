@@ -1,8 +1,9 @@
 package notification.strategy;
 
+import com.sun.istack.NotNull;
 import model.Call;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.CallRepository;
+import service.ICallRepository;
 import service.WebSocketOperations;
 
 import java.util.Date;
@@ -14,21 +15,19 @@ import java.util.List;
  * This class is used to create
  *      MissingCallNotification and AvailabilityNotification
  * To create MissingCallNotification:
- *      it is stimulated by ClientListener. Right after a new client
+ *      it is stimulated by ClientListener. Right after a new client(numNewClient)
  *      has connected, server sends MissingCallNotification for that number.
  *
  * To create AvailabilityNotification:
- *      system waits for MissingCallNotification. If there is any call to new
- *      client, then server sends AvailabilityNotification to those called
- *      new client in the past.
+ *      If there is any call to new
+ *      client, then server sends AvailabilityNotification to those who
+ *      called new client in the past.
  */
 
 public class NotificationCreator {
 
     @Autowired
-    private CallRepository callRepository;
-    @Autowired
-    private WebSocketOperations webSocketOperations;
+    private ICallRepository ICallRepository;
 
     private AbstractNotification abstractNotification;
 
@@ -43,16 +42,23 @@ public class NotificationCreator {
         callerNumDateTable = new Hashtable<Integer, Date>();
     }
 
+    // this method is stimulated from ClientListener to create multiple
+    // notifications when new Client is connected
     public boolean createNotification() {
 
         boolean bIsCreated = true;
 
         List<Call> callToNewClientList =
-                callRepository.getCallByCalledNum(numNewClient);
+                ICallRepository.getCallByCalledNum(numNewClient);
 
         if(callToNewClientList.isEmpty()) {
             bIsCreated = false;
         } else {
+
+            // fills the list which keeps MissingCalls to newly joined Client
+            fillCallCountByCaller(callToNewClientList);
+            //
+            fillLastCallDateByCaller(callToNewClientList);
 
             bIsCreated =
                     createMissingCallNotification() &&
@@ -78,7 +84,8 @@ public class NotificationCreator {
                             callerNumCountTable.get(keyNum));
 
             String notificationMessage = abstractNotification.createNotificationMessage();
-            webSocketOperations.sendNotificationOverWebSocket(keyNum, notificationMessage);
+            WebSocketOperations.getInstance().
+                    sendNotificationOverWebSocket(keyNum, notificationMessage);
             bIsCreated = true; // could be false. answer from WebSocket
         }
 
@@ -100,7 +107,8 @@ public class NotificationCreator {
                             callerNumDateTable.get(keyNum));
 
             String notificationMessage = abstractNotification.createNotificationMessage();
-            webSocketOperations.sendNotificationOverWebSocket(keyNum, notificationMessage);
+            WebSocketOperations.getInstance().
+                    sendNotificationOverWebSocket(keyNum, notificationMessage);
             bIsCreated = true; // could be false. answer from WebSocket
         }
 
@@ -112,7 +120,7 @@ public class NotificationCreator {
      * first param of Hashtable: CallerNum
      * second param of Hashtable: count of call
      * */
-    private void getCallCountByCaller(List<Call> callToNewClientList) {
+    private void fillCallCountByCaller(@NotNull List<Call> callToNewClientList) {
 
         for (Call call : callToNewClientList) {
             int callerNum = call.getCallerNum();
@@ -134,19 +142,21 @@ public class NotificationCreator {
      *
      * fills callerNumDateTable by Caller and its last call
      * */
-    private void getLastCallDateByCaller(List<Call> callToNewClientList) {
+    private void fillLastCallDateByCaller(@NotNull List<Call> callToNewClientList) {
 
+        // iterate over Calls to find latest call for each Caller
         for (Call call: callToNewClientList) {
             int callerNum = call.getCallerNum();
             Date timestamp = call.getTimestamp();
 
-            if(!callerNumDateTable.containsKey(callerNum)) {
+            if(!callerNumDateTable.contains(callerNum)) {
                 callerNumDateTable.put(callerNum, timestamp);
             } else {
-                Date newTimestamp = callerNumDateTable.get(callerNum);
+                // timestamp already in the table for callerNum
+                Date currentTimestamp = callerNumDateTable.get(callerNum);
 
-                if(newTimestamp.after(timestamp)) {
-                    callerNumDateTable.put(callerNum, newTimestamp);
+                if(timestamp.after(currentTimestamp)) {
+                    callerNumDateTable.put(callerNum, timestamp);
                 }
             }
         }

@@ -24,7 +24,7 @@ public class WebSocketOperations {
 
     public WebSocket createWebSocket() {
 
-        // create properly
+        // create a WebSocket properly
         WebSocket webSocket = null;
 
         return webSocket;

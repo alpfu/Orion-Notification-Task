@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9fd5ecc7-6615-4e88-b775-770ce234b367" name="Default Changelist" comment="" />
+    <list default="true" id="9fd5ecc7-6615-4e88-b775-770ce234b367" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Call.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Call.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/notification/strategy/NotificationCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/notification/strategy/NotificationCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/CallRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/ICallRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/IClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/service/WebSocketOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/service/WebSocketOperations.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +34,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
   </component>
@@ -60,7 +71,8 @@
       <updated>1649439397364</updated>
       <workItem from="1649439398671" duration="4745000" />
       <workItem from="1649491357593" duration="11250000" />
-      <workItem from="1649580207897" duration="3602000" />
+      <workItem from="1649580207897" duration="3800000" />
+      <workItem from="1649697148966" duration="3114000" />
     </task>
     <servers />
   </component>

@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Repository
-public interface CallRepository extends JpaRepository<Call, Integer> {
+public interface ICallRepository extends JpaRepository<Call, Integer> {
 
     // returns particular Calls between two Clients
     public List<Call> getCallByCallerNumAndCalledNum(int callerNum, int calledNum);

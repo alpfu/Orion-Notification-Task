@@ -1,7 +1,7 @@
 package model;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import service.ClientRepository;
+import service.IClientRepository;
 import service.WebSocketOperations;
 
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import java.util.Objects;
 
 /**
  * This class has been created to keep Clients those have contacted server.
+ * Since num is unique for all Clients, we use it as primary key in this table.
+ * Keeps Clients in H2 Database. DB operations are handled by IClientRepository
  * */
 
 @Entity
@@ -21,16 +23,14 @@ public class Client {
     private WebSocket webSocket;
 
     @Autowired
-    private ClientRepository clientRepository;
-
-    private WebSocketOperations webSocketOperations = WebSocketOperations.getInstance();
+    private IClientRepository IClientRepository;
 
     public Client(int num) {
         this.num = num;
-        webSocket = webSocketOperations.createWebSocket();
+        webSocket = WebSocketOperations.getInstance().createWebSocket();
 
-        // TODO: should not be here. would be better to have ClientService
-        clientRepository.save(this);
+        // TODO: should not be here. would be better to have in ClientService
+        IClientRepository.save(this);
     }
 
     public int getNum() {
